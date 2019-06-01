@@ -1,15 +1,41 @@
 <?php
 
 namespace app\models;
-use app\helpers\DaHelper;
+use app\helpers\DeviantClient;
+use Yii;
 
-class Stash extends \yii\base\BaseObject
+class Stash
 {
-    public static function findAll()
+    public function find($id = 0)
     {
-        $client = new DaHelper();
-        $data = DaHelper::call('get', '/stash/delta');
-        $response = $client->get('/stash/delta')->send();
-        var_dump($response);exit;
+        $stacks = [];
+        $items = [];
+
+        $client = new DeviantClient;
+        $json = $client->get("/stash/{$id}/contents")->send();
+        $results = $json->results;
+        foreach ($results as $result) {
+            if ($result->size > 1) {
+                $stacks[] = $result;
+            } else {
+                $items[] = $result;
+            }
+        }
+
+        return compact('stacks', 'items');
+    }
+
+    /**
+     * Find a single stash item
+     * @param  int $id
+     * @return json
+     */
+    public function findOne($id)
+    {
+        // read everything
+        $client = new DeviantClient;
+        $response = $client->get("/stash/{$id}/contents")->returnAsArray()->send();
+        $results = $response['results'];
+        return $results[0];
     }
 }

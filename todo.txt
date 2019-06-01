@@ -1,0 +1,19 @@
+publish single item
+    `form
+        `title
+        `description
+        `tags
+        gallery checkbox select
+    `update stash metadata
+    `publish
+`publish many
+
+gallery (https://www.deviantart.com/developers/http/v1/20160316/gallery/ad9269c59f216e0c911d6d06e2d22dfe)
+    `tag editor
+        `allow mass tagging for a gallery
+    link generator
+        updates items in a gallery to link to each other
+        update artist_comment
+
+`login
+    `login still persists after 3600

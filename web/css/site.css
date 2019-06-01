@@ -113,3 +113,18 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.stash-item {
+    float: left;
+    height: 250px;
+    height: 300px;
+    /*border: 1px solid red;*/
+    /*border-radius: 25px;*/
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.stash-thumb {
+    max-width: 200px;
+    max-height: 200px;
+}
