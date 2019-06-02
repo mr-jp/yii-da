@@ -15,13 +15,10 @@ $this->title = 'Stash Items';
                     <h2>Stack: <?= $id ?></h2>
                     <a href="<?= Yii::$app->urlManager->createUrl(['stash/index', 'id'=>0]) ?>">&lt;&lt; back to root</a>
                 <?php endif ?>
-                <p>
-                    <a href="https://sta.sh/" target="_new">DA Stash Page &gt;&gt;</a>
-                </p>
 
                 <!-- Display stacks first -->
+                <h3>Stacks:</h3>
                 <?php if (sizeof($stacks) !== 0): ?>
-                    <h3>Stacks:</h3>
                     <ul>
                         <?php foreach ($stacks as $stack): ?>
                             <li>
@@ -32,7 +29,7 @@ $this->title = 'Stash Items';
                         <?php endforeach?>
                     </ul>
                 <?php else: ?>
-                    <p>No items in stash!</p>
+                    <p>No stacks on this level</p>
                 <?php endif?>
 
                 <!-- Display items in this stack -->

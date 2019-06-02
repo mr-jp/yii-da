@@ -128,3 +128,8 @@ a.desc:after {
     max-width: 200px;
     max-height: 200px;
 }
+
+.console-output-div {
+    max-height: 350px;
+    overflow: auto;
+}

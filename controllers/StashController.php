@@ -101,4 +101,21 @@ class StashController extends CommonController
             'stashId' => $stashId,
         ]);
     }
+
+    /**
+     * AJAX request to publish a stash item
+     * @return json
+     */
+    public function actionPublishAjax($id)
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            $post = Yii::$app->request->post();
+            $model = new Item;
+            $model->load($post);
+            $model->stackid = $id;
+            return $model->publishAjax();
+        }
+    }
 }
