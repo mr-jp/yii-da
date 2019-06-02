@@ -109,8 +109,8 @@ class Item extends Model
         // var_dump($post);var_dump($items);exit;
         $itemCount = sizeof($items);
         for($i=0; $i<$itemCount; $i++) {
-            $indexTitle = $i + 1;
-            $newTitle = "{$post['title']} {$indexTitle} of {$itemCount}";
+            $indexTitle = str_pad($i + 1, 2);
+            $newTitle = "{$post['title']} - {$indexTitle} of {$itemCount}";
             $item = $items[$i];
 
             $itemModel = new Item;
@@ -118,7 +118,7 @@ class Item extends Model
             $itemModel->galleryids  = $post['galleryids'];
             $itemModel->tags  = $post['tags'];
 
-            // need to get the contents to get the itemid (what the fuck)
+            // need to get the contents to get the itemid (what the fuck man)
             $stash = new Stash;
             $stashItem = $stash->findOne($item->stackid);
             $itemModel->itemid = $stashItem['itemid'];
@@ -127,18 +127,5 @@ class Item extends Model
             // publish the individual item
             $itemModel->publish();
         }
-    }
-
-    public static function galleries()
-    {
-        $client = new DeviantClient;
-        $response = $client->get('/gallery/folders')->send();
-        $results = $response->results;
-        // var_dump($results);exit;
-        $galleries = [];
-        foreach($results as $result) {
-            $galleries[$result->folderid] = $result->name;
-        }
-        return $galleries;
     }
 }

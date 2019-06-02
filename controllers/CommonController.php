@@ -1,0 +1,93 @@
+<?php
+
+namespace app\controllers;
+
+use Yii;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\filters\VerbFilter;
+use yii\helpers\Url;
+
+use app\models\User;
+use app\models\Item;
+use app\models\Stash;
+use app\helpers\DeviantClient;
+
+class CommonController extends Controller
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            // non logged in only allowed in index and login actions
+            'access' => [
+                'class' => AccessControl::className(),
+                'except' => ['index', 'login'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            // 'verbs' => [
+            //     'class' => VerbFilter::className(),
+            //     'actions' => [
+            //         'logout' => ['get'],
+            //     ],
+            // ],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+
+    public function beforeAction($action)
+    {
+        $controllerName = $action->controller->id;
+        $actionName = $action->id;
+        if ( !($controllerName == 'site' && $actionName == 'index') && Yii::$app->user->isGuest ) {
+
+            // try to refresh token
+            $refreshToken = Yii::$app->session->get('refresh_token');
+            if ($refreshToken) {
+                $client = new DeviantClient;
+                if ($client->refreshToken($refreshToken)) {
+                    return true;
+                }
+            }
+
+            // redirect to site/index
+            Yii::$app->session->setFlash('error', "Please login to continue!");
+            return $this->redirect(['site/index'])->send();
+        }
+
+        // your custom code here, if you want the code to run before action filters,
+        // which are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
+
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        // other custom code here
+
+        return true; // or false to not run the action
+    }
+}
+

@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Publish an item';
 ?>
-<div class="site-publish">
+<div class="stash-publish">
     <div class="body-content">
         <div class="row">
             <div class="col-lg-6">

@@ -12,7 +12,7 @@ class Stash
         $items = [];
 
         $client = new DeviantClient;
-        $json = $client->get("/stash/{$id}/contents")->send();
+        $json = $client->get("/stash/{$id}/contents")->setData(['limit'=>50])->send();
         $results = $json->results;
         foreach ($results as $result) {
             if ($result->size > 1) {

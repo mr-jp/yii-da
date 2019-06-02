@@ -164,10 +164,32 @@ class DeviantClient
         $url = Yii::$app->params['da']['token_url'];
         $result = $this->setUrl($url)->setMethod(self::METHOD_GET)->setData($data)->disableToken()->send();
         if ($result->access_token) {
-            return $result->access_token;
+            Yii::$app->session->set('access_token', $result->access_token);
+            Yii::$app->session->set('refresh_token', $result->refresh_token);
+            return true;
         } else {
             return false;
         }
+    }
+
+    public function refreshToken($refreshToken)
+    {
+        $data = [
+            'grant_type' => 'refresh_token',
+            'client_id' => Yii::$app->params['da']['client_id'],
+            'client_secret' => Yii::$app->params['da']['client_secret'],
+            'refresh_token' => $refreshToken,
+        ];
+        $url = Yii::$app->params['da']['token_url'];
+        $result = $this->setUrl($url)->setMethod(self::METHOD_GET)->setData($data)->disableToken()->send();
+        if ($result->refresh_token) {
+            Yii::$app->session->set('refresh_token', $result->refresh_token);
+            Yii::$app->session->set('access_token', $result->access_token);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     /**

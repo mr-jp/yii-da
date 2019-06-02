@@ -4,7 +4,7 @@
 
 $this->title = 'Stash Items';
 ?>
-<div class="site-index">
+<div class="stash-index">
     <div class="body-content">
         <div class="row">
             <div class="col-lg-12">
@@ -13,8 +13,11 @@ $this->title = 'Stash Items';
                     <h2>Root Stack</h2>
                 <?php else: ?>
                     <h2>Stack: <?= $id ?></h2>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['site/stash', 'id'=>0]) ?>">&lt;&lt; back to root</a>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['stash/index', 'id'=>0]) ?>">&lt;&lt; back to root</a>
                 <?php endif ?>
+                <p>
+                    <a href="https://sta.sh/" target="_new">DA Stash Page &gt;&gt;</a>
+                </p>
 
                 <!-- Display stacks first -->
                 <?php if (sizeof($stacks) !== 0): ?>
@@ -22,7 +25,7 @@ $this->title = 'Stash Items';
                     <ul>
                         <?php foreach ($stacks as $stack): ?>
                             <li>
-                                <a href="<?= Yii::$app->urlManager->createUrl(['site/stash', 'id'=>$stack->stackid]) ?>">
+                                <a href="<?= Yii::$app->urlManager->createUrl(['stash/index', 'id'=>$stack->stackid]) ?>">
                                     <?= $stack->title ?>
                                 </a>
                             </li>
@@ -35,7 +38,7 @@ $this->title = 'Stash Items';
                 <!-- Display items in this stack -->
                 <?php if (sizeof($items) !== 0): ?>
                     <h3>Items:</h3>
-                    <p><a href="<?= Yii::$app->urlManager->createUrl(['site/publish-many', 'stashId'=>$id]) ?>">&gt;&gt; Publish all items on this stack</a></p>
+                    <p><a href="<?= Yii::$app->urlManager->createUrl(['stash/publish-many', 'stashId'=>$id]) ?>">&gt;&gt; Publish all items on this stack</a></p>
                     <?php foreach($items as $item): ?>
                         <!-- <?= var_dump($item) ?> -->
                         <div class="stash-item text-center align-text-bottom">
@@ -44,7 +47,7 @@ $this->title = 'Stash Items';
                             <?php endif ?>
                             <br>
                             <br>
-                            <a href="<?= Yii::$app->urlManager->createUrl(['site/publish', 'id'=>$item->stackid]) ?>" class="btn btn-default">Publish</a>
+                            <a href="<?= Yii::$app->urlManager->createUrl(['stash/publish', 'id'=>$item->stackid]) ?>" class="btn btn-default">Publish</a>
                         </div>
                     <?php endforeach ?>
                 <?php endif ?>
