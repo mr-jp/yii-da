@@ -24,7 +24,7 @@ class SiteController extends CommonController
     public function actionIndex()
     {
         $authUrl = '';
-        if (Yii::$app->request->get('code')) {
+        if (Yii::$app->request->get('code') && !Yii::$app->session->get('refresh_token')) {
             // Get token and store in session variable
             $client = new DeviantClient;
             if ($client->getAccessToken(Yii::$app->request->get('code'))) {
