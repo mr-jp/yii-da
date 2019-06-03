@@ -62,13 +62,15 @@ class CommonController extends Controller
     {
         $controllerName = $action->controller->id;
         $actionName = $action->id;
-        if ( !($controllerName == 'site' && $actionName == 'index') && Yii::$app->user->isGuest ) {
 
+        // if refresh token exists (and user is not logged in), try to login again
+        if ( Yii::$app->session->get('refresh_token') && Yii::$app->user->isGuest ) {
             // try to refresh token
             $refreshToken = Yii::$app->session->get('refresh_token');
             if ($refreshToken) {
                 $client = new DeviantClient;
                 if ($client->refreshToken($refreshToken)) {
+                    $this->performLogin();
                     return true;
                 }
             }
@@ -88,6 +90,21 @@ class CommonController extends Controller
         // other custom code here
 
         return true; // or false to not run the action
+    }
+
+    /**
+     * Perform fake login
+     * @todo  There must be a better way to do this
+     * @return boolean
+     */
+    public function performLogin()
+    {
+        // Create a new user model and login
+        $model = new User;
+        $model->id = '100';
+        $model->username = 'admin';
+        $model->password = 'admin';
+        return Yii::$app->user->login($model);
     }
 }
 

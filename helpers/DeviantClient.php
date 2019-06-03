@@ -157,10 +157,10 @@ class DeviantClient
     {
         $data = [
             'grant_type' => 'authorization_code',
-            'client_id' => Yii::$app->params['da']['client_id'],
-            'client_secret' => Yii::$app->params['da']['client_secret'],
+            'client_id' => static::getClientId(),
+            'client_secret' => static::getClientSecret(),
             'code' => $code,
-            'redirect_uri' => Yii::$app->params['da']['redirect_uri'],
+            'redirect_uri' => static::getRedirectUri(),
         ];
         $url = Yii::$app->params['da']['token_url'];
         $result = $this->setUrl($url)->setMethod(self::METHOD_GET)->setData($data)->disableToken()->send();
@@ -177,8 +177,8 @@ class DeviantClient
     {
         $data = [
             'grant_type' => 'refresh_token',
-            'client_id' => Yii::$app->params['da']['client_id'],
-            'client_secret' => Yii::$app->params['da']['client_secret'],
+            'client_id' => static::getClientId(),
+            'client_secret' => static::getClientSecret(),
             'refresh_token' => $refreshToken,
         ];
         $url = Yii::$app->params['da']['token_url'];
@@ -202,8 +202,8 @@ class DeviantClient
         $authUrl = Yii::$app->params['da']['auth_url'];
         $data = [
             'response_type' => Yii::$app->params['da']['response_type'],
-            'client_id' => Yii::$app->params['da']['client_id'],
-            'redirect_uri' => Yii::$app->params['da']['redirect_uri'],
+            'client_id' => static::getClientId(),
+            'redirect_uri' => static::getRedirectUri(),
             'scope' => Yii::$app->params['da']['scope'],
         ];
         $authUrl .= '?' . http_build_query($data, '&amp;');
@@ -220,5 +220,20 @@ class DeviantClient
     public static function getToken()
     {
         return Yii::$app->session->get('access_token');
+    }
+
+    public static function getClientId()
+    {
+        return getenv('DA_CLIENT_ID');
+    }
+
+    public static function getClientSecret()
+    {
+        return getenv('DA_CLIENT_SECRET');
+    }
+
+    public static function getRedirectUri()
+    {
+        return getenv('DA_REDIRECT_URI');
     }
 }

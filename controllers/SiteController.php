@@ -25,17 +25,10 @@ class SiteController extends CommonController
     {
         $authUrl = '';
         if (Yii::$app->request->get('code')) {
-            // Create a new user model and login
-            $model = new User;
-            $model->id = '100';
-            $model->username = 'admin';
-            $model->password = 'admin';
-
             // Get token and store in session variable
             $client = new DeviantClient;
             if ($client->getAccessToken(Yii::$app->request->get('code'))) {
-                // Redirect to stash page
-                if(Yii::$app->user->login($model)) {
+                if($this->performLogin()) {
                     // return $this->redirect(['stash/index']);
                 }
             } else {
