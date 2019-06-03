@@ -129,7 +129,8 @@ class DeviantClient
         curl_close($curl);
 
         if ($err) {
-            throw new \Exception("Error Processing Request", $err);
+            var_dump($err);exit;
+            throw new \Exception("Error Processing Request");
         }
 
         if ($this->returnJson) {

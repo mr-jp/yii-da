@@ -116,6 +116,7 @@ class StashController extends CommonController
             $model->load($post);
             $model->stackid = $id;
             return $model->publishAjax();
+            // return $model->dummyAjax();
         }
     }
 }

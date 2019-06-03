@@ -23,7 +23,6 @@ function publishItem(id, data, url, stackids)
     .done(function(response) {
         if (response.data.success == true) {
             output('---------------------------');
-            output('Publishing Item: ' + id);
             output(response.data.message);
 
             // update the stackid hidden input with the remaining items
@@ -32,11 +31,12 @@ function publishItem(id, data, url, stackids)
             if (stackids.length !== 0) {
                 // call the next one
                 publishNext(data, url);
-                updateCountDisplay();
             } else {
                 output('---------------------------');
                 output('All done!');
             }
+            updateProgressBar();
+
         } else {
             output(response.data.message);
         }
@@ -46,10 +46,19 @@ function publishItem(id, data, url, stackids)
     });
 }
 
-function updateCountDisplay() {
-    var count = Number($('#item-count').html());
-    count--;
-    $('#item-count').html(count);
+function updateProgressBar() {
+    var currentstack = Number($('input[name="currentstack"]').val());
+    var stackcount = Number($('input[name="stackcount"]').val());
+    currentstack++;
+    // output(currentstack + ' / ' + stackcount);
+
+    var percentage = (currentstack / stackcount) * 100;
+
+    // update progress bar
+    $('#upload-progress').attr('aria-valuenow', percentage).css('width', percentage +'%');
+
+    // update currentstack
+    $('input[name="currentstack"]').val(currentstack);
 }
 
 function setStackIds(stackids) {
@@ -64,22 +73,19 @@ function getStackIds() {
     return $('input[name=stackids]').val().split(",");
 }
 
-function getStackCount() {
-    return $('input[name=stackcount]').val();
-}
-
-function output($text) {
+function output(text) {
     var currentText = $('#console-output').html();
-    var newText = currentText + '\n' + $text;
+    var newText = text + '\n' + currentText;
     $('#console-output').html(newText);
 }
 
 // Attach behaviour to submit button
 $('.publish-many-form').submit(function(event) {
-    event.preventDefault(); // prevent normal submit
-    event.stopImmediatePropagation(); // preven double submission (wtf?)
+    event.preventDefault();             // prevent normal submit
+    event.stopImmediatePropagation();   // prevent double submission (wtf?)
     var data = $(this).serializeArray();
     var url = $(this).attr('action');
-    console.log('Publishing items now ...');
+    $('#progress-bar-div').removeClass('hidden'); // show progress bar
+    $('button[type="submit"]').prop('disabled', 'disabled');
     publishNext(data, url);
 });

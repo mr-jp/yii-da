@@ -130,6 +130,18 @@ class Item extends Model
         }
     }
 
+    public function dummyAjax()
+    {
+        sleep(rand(1,5));
+         return [
+            'data' => [
+                'success' => true,
+                'message' => "Published item!",
+            ],
+            'code' => 0,
+        ];
+    }
+
     public function publishAjax()
     {
         // need to get the contents to get the itemid (what the fuck man)
@@ -190,7 +202,7 @@ class Item extends Model
                  return [
                     'data' => [
                         'success' => true,
-                        'message' => "Item published at {$response2->url}",
+                        'message' => "Published Item: {$this->itemid}",
                     ],
                     'code' => 0,
                 ];

@@ -17,6 +17,7 @@ $this->registerJsFile(
 // stackids in comma delimited form
 $stackids = implode(',', array_map(function($item) {return $item->stackid;}, $items));
 $stackcount = sizeof($items);
+$currentstack = 0;  // used for progress bar
 ?>
 <div class="stash-publish-many">
     <div class="body-content">
@@ -51,11 +52,25 @@ $stackcount = sizeof($items);
 
         <div class="row">
             <div class="col-lg-12">
-                <p>Items to be published: <span id="item-count"><?= $stackcount ?></span></p>
+                <p>
+                    <div id="progress-bar-div" class="progress hidden">
+                        <div id="upload-progress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+
+                        <input type="hidden" name="stackcount" value="<?= $stackcount ?>">
+                        <input type="hidden" name="currentstack" value="<?= $currentstack ?>">
+                        <input type="hidden" name="stackids" value="<?= $stackids ?>" class="form-control" disabled=disabled>
+                    </div>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- <p>Items to be published: <span id="item-count"><?= $stackcount ?></span></p> -->
                 <div class="form-group">
-                    <input type="text" name="stackids" value="<?= $stackids ?>" class="form-control" disabled=disabled>
+
                 </div>
-                <input type="hidden" name="$stackcount" value="<?= $stackcount ?>">
+
             </div>
         </div>
 <!--
