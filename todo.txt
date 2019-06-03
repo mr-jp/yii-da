@@ -1,5 +1,3 @@
-publish-many
-    `include artist_comments
-    `use title from stash for each object
-        `must use external tool to edit title then
-    `there is a 50 item limit
+progress bar
+notification counter
+login / logout still wonky ...
