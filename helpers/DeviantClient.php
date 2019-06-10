@@ -98,8 +98,9 @@ class DeviantClient
 
         if ($this->method == static::METHOD_GET && sizeof($this->data) !== 0) {
             $this->url .= '?' . http_build_query($this->data,'&amp;');
+            // echo $this->url;flush();
         }
-        // echo $this->url;exit;
+        // var_dump($this->data);echo $this->url;exit;
 
         $optionsArray = [
             CURLOPT_URL => $this->url,

@@ -46,6 +46,14 @@ class Item extends Model
         parent::setAttributes($values, $safeOnly);
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'artist_comments' => 'Description (Artist Comments)',
+            'galleryids' => 'Galleries',
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -63,6 +71,11 @@ class Item extends Model
                 'artist_comments',
             ], 'safe'],
         ];
+    }
+
+    public function create()
+    {
+        var_dump($this);exit;
     }
 
     /**

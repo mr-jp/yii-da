@@ -23,8 +23,8 @@ $currentstack = 0;  // used for progress bar
     <div class="body-content">
         <div class="row">
             <div class="col-lg-6">
-                <h1>Publish Stack</h1>
-                <h2><?= $stashId ?></h2>
+                <h2>Publish Stack</h2>
+                <h3><?= $stashId ?></h3>
                 <!-- <p><?= $stackids ?></p> -->
                 <?php $form = ActiveForm::begin([
                     'action' => ['stash/publish-ajax'],
@@ -35,9 +35,9 @@ $currentstack = 0;  // used for progress bar
                     <?= $form->field($model, 'itemid')->hiddenInput()->label(false) ?>
                     <?= $form->field($model, 'stackid')->hiddenInput()->label(false) ?>
                     <!-- <?= $form->field($model, 'title')->textInput() ?> -->
-                    <?= $form->field($model, 'artist_comments')->textInput() ?>
-                    <?= $form->field($model, 'tags')->textInput() ?>
-                    <!-- <p>example tags: 3d girlfight honeyselect</p> -->
+                    <?= $form->field($model, 'artist_comments')->textArea(['rows'=>10]) ?>
+                    <?= $form->field($model, 'tags')->textInput(['value'=>'3d girlfight honeyselect']) ?>
+                    <p>example tags: 3d girlfight honeyselect</p>
                     <?= $form->field($model, 'galleryids')->checkboxList($galleries) ?>
                     <div class="form-group">
                         <!-- <a href="#" id="publish-all-button" class="btn btn-success">Publish All</a> -->

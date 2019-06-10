@@ -20,8 +20,22 @@ class GalleryController extends CommonController
 {
     public function actionIndex()
     {
+        $model = new Gallery;
         $galleries = Gallery::findAll();
-        return $this->render('index', ['galleries'=>$galleries]);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->create()) {
+                $this->refresh();
+                Yii::$app->session->setFlash('success', "Gallery created!");
+            } else {
+                Yii::$app->session->setFlash('error', "Error creating gallery!");
+            }
+        }
+
+        return $this->render('index', [
+            'galleries'=>$galleries,
+            'model'=>$model,
+        ]);
     }
 
     public function actionContents($id=0)

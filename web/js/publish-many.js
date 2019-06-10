@@ -79,6 +79,13 @@ function output(text) {
     $('#console-output').html(newText);
 }
 
+// I can't build the URL from the gallery id :(
+// function changeDescription(target)
+// {
+//     var text = $(target).parent().text();
+//     alert(text);
+// }
+
 // Attach behaviour to submit button
 $('.publish-many-form').submit(function(event) {
     event.preventDefault();             // prevent normal submit
@@ -89,3 +96,8 @@ $('.publish-many-form').submit(function(event) {
     $('button[type="submit"]').prop('disabled', 'disabled');
     publishNext(data, url);
 });
+
+// Change description based on which folder was selected
+// jQuery('form[class="publish-many-form"').find(':checkbox').on('click', function(event) {
+//     changeDescription(event.target);
+// });

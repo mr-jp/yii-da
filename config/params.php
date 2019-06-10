@@ -9,7 +9,7 @@ return [
         'token_url' => 'https://www.deviantart.com/oauth2/token',
         'response_type' => 'code',
         'api_url' => 'https://www.deviantart.com/api/v1/oauth2',
-        'scope' => 'basic stash feed publish browse collection'
+        'scope' => 'basic stash feed publish browse collection gallery'
     ],
     'menuItems' => [
         'loggedInItems' => [

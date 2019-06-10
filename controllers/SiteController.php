@@ -12,6 +12,7 @@ use yii\helpers\Url;
 use app\models\User;
 use app\models\Item;
 use app\models\Stash;
+use app\models\Gallery;
 use app\helpers\DeviantClient;
 
 class SiteController extends CommonController
@@ -45,8 +46,25 @@ class SiteController extends CommonController
             }
         }
 
+        // new gallery form
+        $galleryModel = new Gallery;
+        if ($galleryModel->load(Yii::$app->request->post())) {
+            if ($galleryModel->create()) {
+                Yii::$app->session->setFlash('success', "Gallery created!");
+            } else {
+                Yii::$app->session->setFlash('error', "Error creating gallery!");
+            }
+        }
+
+        // get stacks on root level
+        $stashClient = new Stash();
+        $stashResults = $stashClient->find(0);
+        $stacks = $stashResults['stacks'];
+
         return $this->render('index', [
-            'authUrl' => $authUrl
+            'authUrl' => $authUrl,
+            'galleryModel' => $galleryModel,
+            'stacks' => $stacks,
         ]);
     }
 
