@@ -94,7 +94,7 @@ class CommonController extends Controller
 
     /**
      * Perform fake login
-     * @todo  There must be a better way to do this
+     * @todo  There must be a better way to do this, perhaps some other kidn of authentication model
      * @return boolean
      */
     public function performLogin()

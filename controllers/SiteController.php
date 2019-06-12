@@ -48,18 +48,21 @@ class SiteController extends CommonController
 
         // new gallery form
         $galleryModel = new Gallery;
-        if ($galleryModel->load(Yii::$app->request->post())) {
-            if ($galleryModel->create()) {
-                Yii::$app->session->setFlash('success', "Gallery created!");
-            } else {
-                Yii::$app->session->setFlash('error', "Error creating gallery!");
-            }
-        }
-
-        // get stacks on root level
         $stashClient = new Stash();
-        $stashResults = $stashClient->find(0);
-        $stacks = $stashResults['stacks'];
+        $stacks = [];
+        if (Yii::$app->user->isGuest === false) {
+            if ($galleryModel->load(Yii::$app->request->post())) {
+                if ($galleryModel->create()) {
+                    Yii::$app->session->setFlash('success', "Gallery created!");
+                } else {
+                    Yii::$app->session->setFlash('error', "Error creating gallery!");
+                }
+            }
+
+            // get stacks on root level
+            $stashResults = $stashClient->find(0);
+            $stacks = $stashResults['stacks'];
+        }
 
         return $this->render('index', [
             'authUrl' => $authUrl,

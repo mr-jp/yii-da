@@ -134,12 +134,29 @@ class DeviantClient
             throw new \Exception("Error Processing Request");
         }
 
+        $this->catchError($response);
+
         if ($this->returnJson) {
             return json_decode($response);
         } elseif ($this->returnArray) {
             return json_decode($response, true);
         } else {
             return $response;
+        }
+    }
+
+    /**
+     * Check if any error and throw exception if exists
+     * @param  object $response
+     * @return void
+     * @throws  \Exception
+     */
+    public function catchError($response)
+    {
+        $result = json_decode($response);
+        if (isset($result->status) && $result->status=='error') {
+            $error = $result->error . ': ' . $result->error_description;
+            throw new \Exception($error);
         }
     }
 
