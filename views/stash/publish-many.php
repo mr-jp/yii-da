@@ -22,6 +22,20 @@ $currentstack = 0;  // used for progress bar
 <div class="stash-publish-many">
     <div class="body-content">
         <div class="row">
+            <div class="col-lg-12">
+                <p>
+                    <div id="progress-bar-div" class="progress hidden">
+                        <div id="upload-progress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+
+                        <input type="hidden" name="stackcount" value="<?= $stackcount ?>">
+                        <input type="hidden" name="currentstack" value="<?= $currentstack ?>">
+                        <input type="hidden" name="stackids" value="<?= $stackids ?>" class="form-control" disabled=disabled>
+                    </div>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-lg-6">
                 <h2>Publish Stack</h2>
                 <h3><?= $stashId ?></h3>
@@ -36,8 +50,7 @@ $currentstack = 0;  // used for progress bar
                     <?= $form->field($model, 'stackid')->hiddenInput()->label(false) ?>
                     <!-- <?= $form->field($model, 'title')->textInput() ?> -->
                     <?= $form->field($model, 'artist_comments')->textArea(['rows'=>10]) ?>
-                    <?= $form->field($model, 'tags')->textInput(['value'=>'3d girlfight honeyselect']) ?>
-                    <p>example tags: 3d girlfight honeyselect</p>
+                    <?= $form->field($model, 'tags')->textInput() ?>
                     <?= $form->field($model, 'galleryids')->checkboxList($galleries) ?>
                     <div class="form-group">
                         <!-- <a href="#" id="publish-all-button" class="btn btn-success">Publish All</a> -->
@@ -47,20 +60,6 @@ $currentstack = 0;  // used for progress bar
             </div>
             <div class="col-lg-6 console-output-div">
                 <pre id="console-output" class="xdebug-var-dump" dir="ltr">Waiting for input ...</pre>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <p>
-                    <div id="progress-bar-div" class="progress hidden">
-                        <div id="upload-progress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-
-                        <input type="hidden" name="stackcount" value="<?= $stackcount ?>">
-                        <input type="hidden" name="currentstack" value="<?= $currentstack ?>">
-                        <input type="hidden" name="stackids" value="<?= $stackids ?>" class="form-control" disabled=disabled>
-                    </div>
-                </p>
             </div>
         </div>
 

@@ -145,11 +145,13 @@ class Item extends Model
 
     public function dummyAjax()
     {
+        $start = microtime(true);
         sleep(rand(1,5));
+        $timeElapsedSecs = floor(microtime(true) - $start);
          return [
             'data' => [
                 'success' => true,
-                'message' => "Published item!",
+                'message' => "Published item!\nTime taken: {$timeElapsedSecs} sec(s)"
             ],
             'code' => 0,
         ];
@@ -157,6 +159,8 @@ class Item extends Model
 
     public function publishAjax()
     {
+        $start = microtime(true);
+
         // need to get the contents to get the itemid (what the fuck man)
         $stash = new Stash;
         $stashItem = $stash->findOne($this->stackid);
@@ -203,6 +207,9 @@ class Item extends Model
             ];
             $client2 = new DeviantClient;
             $response2 = $client2->post('/stash/publish')->setData($data2)->send();
+
+            $timeElapsedSecs = floor(microtime(true) - $start);
+
             if (!isset($response2->url)) {
                  return [
                     'data' => [
@@ -215,7 +222,7 @@ class Item extends Model
                  return [
                     'data' => [
                         'success' => true,
-                        'message' => "Published Item: {$this->itemid}",
+                        'message' => "Published Item: {$this->itemid}\nTime Taken: {$timeElapsedSecs} sec(s)",
                     ],
                     'code' => 0,
                 ];
