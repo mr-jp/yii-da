@@ -58,8 +58,15 @@ $currentstack = 0;  // used for progress bar
                     </div>
                 <?php ActiveForm::end(); ?>
             </div>
-            <div class="col-lg-6 console-output-div">
+            <!-- <div class="col-lg-6 console-output-div">
                 <pre id="console-output" class="xdebug-var-dump" dir="ltr">Waiting for input ...</pre>
+            </div> -->
+            <div class="col-lg-6">
+                <ol>
+                    <?php foreach($items as $item): ?>
+                        <li id="<?= $item->stackid ?>"><?= $item->stackid ?></li>
+                    <?php endforeach ?>
+                </ol>
             </div>
         </div>
 

@@ -12,6 +12,8 @@ function publishNext(data, url) {
 
 function publishItem(id, data, url, stackids)
 {
+    updateListItemLoading(id);
+
     // add id to data
     url += "&id=" + id;
     $.ajax({
@@ -35,14 +37,15 @@ function publishItem(id, data, url, stackids)
                 output('---------------------------');
                 output('All done!');
             }
-            updateProgressBar();
-
+            // updateProgressBar();
+            updateListItemDone(id, response.data.url);
         } else {
             output(response.data.message);
         }
     })
     .fail(function() {
         output('Error publishing ...');
+        updateListItemError(id);
     });
 }
 
@@ -59,6 +62,25 @@ function updateProgressBar() {
 
     // update currentstack
     $('input[name="currentstack"]').val(currentstack);
+}
+
+function updateListItemLoading(id) {
+    var e = $('li[id='+id+']');
+    text = id + ' <span class="glyphicon glyphicon-time" aria-hidden="true"></span>';
+    e.html(text);
+}
+
+function updateListItemDone(id, url) {
+    var e = $('li[id='+id+']');
+    var link = '<a href="'+url+'" target="_new">' + id + '</a>';
+    var text = link + ' <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>';
+    e.html(text);
+}
+
+function updateListItemError(id) {
+    var e = $('li[id='+id+']');
+    text = id + ' <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>';
+    e.html(text);
 }
 
 function setStackIds(stackids) {

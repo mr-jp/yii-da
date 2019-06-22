@@ -223,6 +223,7 @@ class Item extends Model
                     'data' => [
                         'success' => true,
                         'message' => "Published Item: {$this->itemid}\nTime Taken: {$timeElapsedSecs} sec(s)",
+                        'url' => $response2->url
                     ],
                     'code' => 0,
                 ];
